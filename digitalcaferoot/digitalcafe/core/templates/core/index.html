@@ -1,0 +1,28 @@
+{% if product_data %}
+    <p>Hi, {{ user.username }}!</p>
+    <p>
+        <a href="{% url 'checkout' %}">🛒 Go to Checkout</a> | 
+        <a href="{% url 'transaction_history' %}">📦 My Orders</a>
+    </p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        {% for product_record in product_data %}
+            <tr>
+                <td><a href="/product/{{ product_record.id }}">{{ product_record.name }}</a></td>
+                <td>{{ product_record.price }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/checkout">Go to checkout</a>
+{% endif %}

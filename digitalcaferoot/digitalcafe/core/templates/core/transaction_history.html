@@ -1,0 +1,29 @@
+<h1>My Transaction History</h1>
+<p>
+    <a href="{% url 'home' %}">← Back to Home</a>
+</p>
+<p>Hi, {{ user.username }}!</p>
+
+{% if transactions %}
+    {% for transaction in transactions %}
+        <h3>Order #{{ transaction.id }} - {{ transaction.created_at|date:"F d, Y, g:i A" }}</h3>
+        <table border="1">
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            {% for line_item in transaction.lineitem_set.all %}
+            <tr>
+                <td>{{ line_item.product.name }}</td>
+                <td>{{ line_item.quantity }}</td>
+                <td>${{ line_item.product.price }} each</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+    {% endfor %}
+{% else %}
+    <p>No transactions yet.</p>
+    <a href="{% url 'home' %}">Start Shopping</a>
+{% endif %}

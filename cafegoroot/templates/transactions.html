@@ -1,0 +1,29 @@
+<h1>CafeGo</h1>
+
+<nav>
+  <a href="/">Home</a> |
+  <a href="/cart/">Cart</a>
+</nav>
+
+<hr>
+
+<h2>{{ .User.Username }}’s Order History</h2>
+
+{{ if .Transactions }}
+  {{ range $t := .Transactions }}
+    <section style="margin-bottom: 1.5rem; border: 1px solid #ccc; padding: 0.5rem;">
+      <h3>Order #{{ $t.Id }}</h3>
+      <p><em>Date:</em> {{ $t.CreatedAt }}</p>
+
+      <ul>
+        {{ range $it := $t.Items }}
+          <li>{{ $it.Quantity }} × {{ $it.ProductName }} — PHP {{ $it.Price }}</li>
+        {{ end }}
+      </ul>
+
+      <p><b>Order Total:</b> PHP {{ $t.Total }}</p>
+    </section>
+  {{ end }}
+{{ else }}
+  <p>You don’t have any transactions yet.</p>
+{{ end }}
